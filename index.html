@@ -1,1 +1,267 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofinity Tech - Optimized Infinity Technology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 4rem;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #home {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('imgs/robot-bg.jpg');
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #00ff88, #00a3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .robot-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .member-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid #00ff88;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: #00ff88;
+            margin: 1rem auto;
+        }
+
+        /* Scroll Snap */
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .section {
+            scroll-snap-align: start; /* Ensures each section snaps to the top */
+            min-height: 100vh;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <section class="section parallax" id="home">
+        <h1 class="logo" style="font-size: 6rem;">Ofinity Tech</h1>
+        <p style="font-size: 2rem;">Optimized Infinity Technology Solutions</p>
+    </section>
+
+    <section class="section" id="robots">
+        <h2 class="section-title">Our Robots</h2>
+        <div class="grid-container">
+            <!-- Line Follower Robot -->
+            <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="let vid=this.querySelector('video'); vid.pause(); vid.currentTime=0;">
+                <div style="position: relative;">
+                    <img src="imgs/robots/line-follower.jpg" alt="Line Follower" class="robot-image" style="height: 500px; display: block;">
+                    <video src="imgs/robots/line-follower.mp4" muted loop playsinline class="robot-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 500px; object-fit: cover; display: none;"></video>
+                </div>
+                <h3>Line Follower Pro X</h3>
+                <p>Advanced PID-controlled line following robot with machine vision</p>
+                <a href="https://www.youtube.com/watch?v=KdNqmxu_V4A&pp=ygUYZmFzdCBsaW5lIGZvbGxvd2VyIHJvYm90" target="_blank" class="whatsapp-btn">
+                    <i class="fab fa-youtube"></i> Watch Video
+                </a>
+                <button class="whatsapp-btn" onclick="window.open('https://wa.me/962792981441')">
+                    <i class="fab fa-whatsapp"></i> Contact Us
+                </button>
+            </div>
+
+            <!-- Maze Solver Robot -->
+            <div class="card" onmouseenter="this.querySelector('video').play()" onmouseleave="let vid=this.querySelector('video'); vid.pause(); vid.currentTime=0;">
+                <div style="position: relative;">
+                    <img src="imgs/robots/maze-solver.jpg" alt="Maze Solver" class="robot-image" style="height: 500px; display: block;">
+                    <video src="imgs/robots/maze-solver.mp4" muted loop playsinline class="robot-video" style="position: absolute; top: 0; left: 0; width: 100%; height: 500px; object-fit: cover; display: none;"></video>
+                </div>
+                <h3>Maze Master 3000</h3>
+                <p>Ultra-fast maze solving robot with flood fill algorithm</p>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank" class="whatsapp-btn">
+                    <i class="fab fa-youtube"></i> Watch Video
+                </a>
+                <button class="whatsapp-btn" onclick="window.open('https://wa.me/962792981441')">
+                    <i class="fab fa-whatsapp"></i> Contact Us
+                </button>
+            </div>
+        </div>
+    </section>
+<script>
+    // Toggle video visibility on hover
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const video = card.querySelector('video');
+            if(video){
+                video.style.display = 'block';
+            }
+        });
+        card.addEventListener('mouseleave', () => {
+            const video = card.querySelector('video');
+            if(video){
+                video.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+    <section class="section" id="team">
+        <h2 class="section-title" style="font-size: 3.5rem;">Our Team</h2>
+        <div class="grid-container">
+            <div class="team-member">
+                <a href="https://www.linkedin.com/in/yazan-atout/" target="_blank">
+                    <img src="imgs/members/yazan.jpg" alt="Yazan" class="member-image" style="width: 200px; height: 200px;">
+                </a>
+                <h3 style="font-size: 2rem;">Yazan AlAtout</h3>
+                <p style="font-size: 1.5rem;">Data Science & AI</p>
+            </div>
+            <div class="team-member">
+                <a href="https://www.linkedin.com/in/murad-zughier-36a2322b3/" target="_blank">
+                    <img src="imgs/members/murad.jpg" alt="Murad" class="member-image" style="width: 200px; height: 200px;">
+                </a>
+                <h3 style="font-size: 2rem;">Murad Zughair</h3>
+                <p style="font-size: 1.5rem;">Data Science & AI</p>
+            </div>
+            <div class="team-member">
+                <a href="https://www.linkedin.com/in/amro-hammad-252993259/" target="_blank">
+                    <img src="imgs/members/amro.jpg" alt="Amro" class="member-image" style="width: 200px; height: 200px;">
+                </a>
+                <h3 style="font-size: 2rem;">Amro Hammad</h3>
+                <p style="font-size: 1.5rem;">Data Science & AI</p>
+            </div>
+            <div class="team-member">
+                <a href="https://www.linkedin.com/in/mohammed-bilal-569338337/" target="_blank">
+                    <img src="imgs/members/mohammad-bilal.jpg" alt="Mohammad" class="member-image" style="width: 200px; height: 200px;">
+                </a>
+                <h3 style="font-size: 2rem;">Mohammad Bilal</h3>
+                <p style="font-size: 1.5rem;">Electrical Engineering</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact" style="min-height: 50vh; scroll-snap-align: start;">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="social-links">
+            <a href="tel:+962792981441" class="social-icon">
+                <i class="fas fa-phone"></i>
+            </a>
+            <a href="https://linkedin.com/company/ofinity-tech" class="social-icon">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://facebook.com/ofinitytech" class="social-icon">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://youtube.com/ofinitytech" class="social-icon">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://instagram.com/ofinitytech" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </section>
+</body>
+</html>
