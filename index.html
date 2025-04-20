@@ -8,6 +8,7 @@
     <meta property="og:description" content="Cutting-edge robotics and AI solutions">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ofinitytech.com">
+    <meta property="og:image" content="https://ofinitytech.com/imgs/logo.png">
     <title>Ofinity Tech</title>
     <style>
         :root {
@@ -395,7 +396,7 @@
                 <div class="card-content">
                     <h3>Line Follower Pro X</h3>
                     <p>Advanced PID-controlled line following robot with machine vision</p>
-                    <a href="#" class="whatsapp-btn"><i class="fab fa-youtube"></i> Watch Video</a>
+                    <a href="https://www.youtube.com/watch?v=your-video-id" class="whatsapp-btn" target="_blank"><i class="fab fa-youtube"></i> Watch Video</a>
                     <button class="whatsapp-btn" onclick="window.open('https://wa.me/962792981441')"><i class="fab fa-whatsapp"></i> Contact Us</button>
                 </div>
             </div>
@@ -408,7 +409,7 @@
                 <div class="card-content">
                     <h3>Maze Master 3000</h3>
                     <p>Ultra-fast maze solving robot with flood fill algorithm</p>
-                    <a href="#" class="whatsapp-btn"><i class="fab fa-youtube"></i> Watch Video</a>
+                    <a href="https://www.youtube.com/watch?v=your-video-id" class="whatsapp-btn" target="_blank"><i class="fab fa-youtube"></i> Watch Video</a>
                     <button class="whatsapp-btn" onclick="window.open('https://wa.me/962792981441')"><i class="fab fa-whatsapp"></i> Contact Us</button>
                 </div>
             </div>
@@ -460,10 +461,10 @@
         <h2 class="section-title">Contact Us</h2>
         <div class="social-links">
             <a href="tel:+962792981441" class="social-icon"><i class="fas fa-phone"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/ofinitytech" class="social-icon" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/ofinitytech" class="social-icon" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.youtube.com/channel/your-channel" class="social-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/ofinitytech/" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
     </section>
 
@@ -497,6 +498,13 @@
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
+            });
+        });
+
+        // Preload videos when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.robot-video').forEach(video => {
+                video.load();
             });
         });
     </script>
