@@ -1,1 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About Ofinity Tech - Pioneers in Arduino robotics and AI solutions">
+    <title>About Us | Ofinity Tech</title>
+    <style>
+        :root {
+            --primary-dark: #0F0A1A;
+            --primary-accent: #00BFFF;
+            --secondary-accent: #00FFFF;
+            --highlight-accent: #00E5FF;
+            --neon-magenta: #FF00CC;
+            --text-light: #FFFFFF;
+            --text-muted: rgba(255,255,255,0.8);
+            --card-bg: rgba(15, 10, 26, 0.7);
+            --nav-bg: rgba(15, 10, 26, 0.95);
+            --button-bg: #00BFFF;
+            --button-hover: #00FFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
 
+        body {
+            background: var(--primary-dark);
+            color: var(--text-light);
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 12px rgba(255, 0, 204, 0.5);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .mission-statement {
+            font-style: italic;
+            border-left: 3px solid var(--primary-accent);
+            padding-left: 1rem;
+            margin: 2rem 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-accent);
+            background: rgba(0, 191, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 2rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Ofinity Tech</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AboutUs.html" class="nav-link">About Us</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <h2 class="section-title">Our Story</h2>
+        <div class="about-content">
+            <p>Founded in 2023 by a group of passionate engineering students, Ofinity Tech began as a small university project focused on creating innovative Arduino-based robotics solutions. What started as a hobby quickly evolved into a mission to make robotics accessible to everyone in the Middle East.</p>
+            
+            <p>Our team combines expertise in artificial intelligence, mechanical engineering, and embedded systems to build robots that are not only functional but also push the boundaries of what's possible with open-source hardware. We believe in the power of hands-on learning and strive to create products that inspire the next generation of innovators.</p>
+            
+            <div class="mission-statement">
+                <p>"To democratize robotics education through affordable, high-quality Arduino platforms that make learning both fun and impactful."</p>
+            </div>
+            
+            <p>Over the years, we've grown from a garage workshop to a recognized name in educational robotics. Our products are now used in schools, universities, and maker spaces across Jordan and the surrounding region. Each robot kit is carefully designed with both beginners and advanced users in mind, featuring detailed documentation and open-source code.</p>
+            
+            <p>What sets us apart is our commitment to community. We regularly host free workshops, participate in STEM outreach programs, and actively contribute to open-source robotics projects. Our team members are always available to help customers troubleshoot or brainstorm new applications for our kits.</p>
+            
+            <p>As we look to the future, Ofinity Tech remains dedicated to our core values of innovation, education, and accessibility. We're currently developing new AI-powered robotics kits and expanding our online learning resources to serve an even broader audience of aspiring roboticists.</p>
+        </div>
+    </section>
+
+    <script>
+        // Simple script to handle mobile menu if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('About Us page loaded');
+        });
+    </script>
+</body>
+</html>
