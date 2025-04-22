@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ofinity Tech Blog - Latest news and tutorials about Arduino robotics">
+    <title>Blog | Ofinity Tech</title>
+    <style>
+        :root {
+            --primary-dark: #0F0A1A;
+            --primary-accent: #00BFFF;
+            --secondary-accent: #00FFFF;
+            --highlight-accent: #00E5FF;
+            --neon-magenta: #FF00CC;
+            --text-light: #FFFFFF;
+            --text-muted: rgba(255,255,255,0.8);
+            --card-bg: rgba(15, 10, 26, 0.7);
+            --nav-bg: rgba(15, 10, 26, 0.95);
+            --button-bg: #00BFFF;
+            --button-hover: #00FFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
 
+        body {
+            background: var(--primary-dark);
+            color: var(--text-light);
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 12px rgba(255, 0, 204, 0.5);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .blog-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .blog-post {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--secondary-accent);
+        }
+
+        .post-title {
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .post-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .post-content {
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--secondary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-accent);
+            background: rgba(0, 191, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 2rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Ofinity Tech</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AboutUs.html" class="nav-link">About Us</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="BlogPage.html" class="nav-link">Blog</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <h2 class="section-title">Ofinity Tech Blog</h2>
+        <div class="blog-container">
+            <!-- Blog Post Template - Copy this section to add new posts -->
+            <article class="blog-post">
+                <h3 class="post-title">Blog Post Title</h3>
+                <div class="post-meta">
+                    <span><i class="far fa-calendar-alt"></i> January 1, 2023</span>
+                    <span><i class="far fa-user"></i> Author Name</span>
+                </div>
+                <div class="post-content">
+                    <p>Your blog post content goes here. This is where you'll write your articles about Arduino robotics, tutorials, company news, or technical insights.</p>
+                    <p>You can add multiple paragraphs, images, or even embedded videos by editing the HTML directly.</p>
+                </div>
+                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </article>
+            <!-- End of Blog Post Template -->
+
+            <!-- Add more posts by duplicating the article section above -->
+            
+        </div>
+    </section>
+
+    <script>
+        // Simple script for future functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Blog page loaded');
+        });
+    </script>
+</body>
+</html>
