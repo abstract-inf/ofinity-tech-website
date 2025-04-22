@@ -160,6 +160,11 @@
             background: rgba(0, 191, 255, 0.1);
         }
 
+        .current-page {
+            color: var(--secondary-accent);
+            border-bottom: 2px solid var(--secondary-accent);
+        }
+
         @media (max-width: 768px) {
             .section {
                 padding: 2rem;
@@ -190,9 +195,8 @@
             <div class="nav-links">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="AboutUs.html" class="nav-link">About Us</a>
-                <a href="products.html" class="nav-link">Products</a>
-                <a href="BlogPage.html" class="nav-link">Blog</a>
-                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="Products.html" class="nav-link">Products</a>
+                <a href="BlogPage.html" class="nav-link current-page">Blogs</a>
             </div>
         </div>
     </nav>
@@ -200,23 +204,47 @@
     <section class="section">
         <h2 class="section-title">Ofinity Tech Blog</h2>
         <div class="blog-container">
-            <!-- Blog Post Template - Copy this section to add new posts -->
+            <!-- Blog Post 1 -->
             <article class="blog-post">
-                <h3 class="post-title">Blog Post Title</h3>
+                <h3 class="post-title">Getting Started with Arduino Robotics</h3>
                 <div class="post-meta">
-                    <span><i class="far fa-calendar-alt"></i> January 1, 2023</span>
-                    <span><i class="far fa-user"></i> Author Name</span>
+                    <span><i class="far fa-calendar-alt"></i> April 22, 2025</span>
+                    <span><i class="far fa-user"></i> Yazan AlAtout</span>
                 </div>
                 <div class="post-content">
-                    <p>Your blog post content goes here. This is where you'll write your articles about Arduino robotics, tutorials, company news, or technical insights.</p>
-                    <p>You can add multiple paragraphs, images, or even embedded videos by editing the HTML directly.</p>
+                    <p>Learn the fundamentals of Arduino robotics with our comprehensive beginner's guide. We cover everything from setting up your development environment to programming your first robot.</p>
+                    <p>This tutorial includes step-by-step instructions and code samples to help you build a simple line-following robot using basic components.</p>
                 </div>
                 <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
             </article>
-            <!-- End of Blog Post Template -->
 
-            <!-- Add more posts by duplicating the article section above -->
-            
+            <!-- Blog Post 2 -->
+            <article class="blog-post">
+                <h3 class="post-title">Advanced PID Control for Robotics</h3>
+                <div class="post-meta">
+                    <span><i class="far fa-calendar-alt"></i> April 22, 2025</span>
+                    <span><i class="far fa-user"></i> Murad Zughair</span>
+                </div>
+                <div class="post-content">
+                    <p>Take your robotics projects to the next level with our in-depth guide to PID control systems. We explain the theory behind PID controllers and show practical implementations for robotics applications.</p>
+                    <p>Includes real-world examples from our Maze Master 3000 robot, with downloadable code samples.</p>
+                </div>
+                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </article>
+
+            <!-- Blog Post 3 -->
+            <article class="blog-post">
+                <h3 class="post-title">Building a Robot from Scratch: Our Journey</h3>
+                <div class="post-meta">
+                    <span><i class="far fa-calendar-alt"></i> April 22, 2025</span>
+                    <span><i class="far fa-user"></i> Amro Hammad</span>
+                </div>
+                <div class="post-content">
+                    <p>Follow our team's journey from concept to finished product as we document the development of our latest educational robot kit. Learn about the challenges we faced and how we overcame them.</p>
+                    <p>This behind-the-scenes look includes design sketches, prototype photos, and lessons learned.</p>
+                </div>
+                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+            </article>
         </div>
     </section>
 
