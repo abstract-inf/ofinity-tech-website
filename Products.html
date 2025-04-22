@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -184,6 +183,11 @@
             background: rgba(0, 191, 255, 0.1);
         }
 
+        .current-page {
+            color: var(--secondary-accent);
+            border-bottom: 2px solid var(--secondary-accent);
+        }
+
         @media (max-width: 768px) {
             .section {
                 padding: 2rem;
@@ -214,9 +218,8 @@
             <div class="nav-links">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="AboutUs.html" class="nav-link">About Us</a>
-                <a href="products.html" class="nav-link">Products</a>
-                <a href="BlogPage.html" class="nav-link">Blog</a>
-                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="products.html" class="nav-link current-page">Products</a>
+                <a href="BlogPage.html" class="nav-link">Blogs</a>
             </div>
         </div>
     </nav>
@@ -262,18 +265,12 @@
                     <i class="fab fa-instagram"></i> Order on Instagram
                 </button>
             </div>
-
-            <!-- Add more products by duplicating the product-card div -->
         </div>
     </section>
 
     <script>
-        // Simple script for future functionality
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Products page loaded');
-            
-            // You can add more interactive features here later
-            // For example: product filtering, cart functionality, etc.
         });
     </script>
 </body>
