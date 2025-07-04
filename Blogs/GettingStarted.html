@@ -157,10 +157,11 @@
             border: 1px solid var(--secondary-accent);
             border-radius: 30px;
             transition: all 0.3s;
+            background: rgba(0, 191, 255, 0.1);
         }
 
         .back-button:hover {
-            background: rgba(0, 191, 255, 0.1);
+            background: rgba(0, 191, 255, 0.2);
             transform: translateX(-5px);
         }
         
@@ -300,6 +301,18 @@
             font-size: 0.95rem;
             line-height: 1.6;
         }
+        
+        .related-card a {
+            color: var(--secondary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .related-card a:hover {
+            text-decoration: underline;
+        }
 
         @media (max-width: 768px) {
             .section {
@@ -332,10 +345,11 @@
         <div class="nav-container">
             <div class="nav-logo">Ofinity Tech</div>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="AboutUs.html" class="nav-link">About Us</a>
-                <a href="Products.html" class="nav-link">Products</a>
-                <a href="BlogPage.html" class="nav-link current-page">Blogs</a>
+                <!-- Fixed relative paths for all navigation -->
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../AboutUs.html" class="nav-link">About Us</a>
+                <a href="../Products.html" class="nav-link">Products</a>
+                <a href="../BlogPage.html" class="nav-link current-page">Blogs</a>
             </div>
         </div>
     </nav>
@@ -501,7 +515,8 @@ void loop() {
                 <p>Remember, the key to learning robotics is experimentation. Don't be afraid to try new things, make mistakes, and learn from them. The Arduino community is incredibly supportive, so don't hesitate to ask for help when you need it.</p>
             </div>
             
-            <a href="BlogPage.html" class="back-button">
+            <!-- Fixed back button -->
+            <a href="../BlogPage.html" class="back-button">
                 <i class="fas fa-arrow-left"></i> Back to All Articles
             </a>
         </div>
@@ -512,14 +527,17 @@ void loop() {
                 <div class="related-card">
                     <h4>Advanced PID Control for Robotics</h4>
                     <p>Take your robotics projects to the next level with our in-depth guide to PID control systems.</p>
+                    <a href="../Blogs/PIDControl.html">Read Article</a>
                 </div>
                 <div class="related-card">
                     <h4>Building a Robot from Scratch</h4>
                     <p>Follow our team's journey from concept to finished product as we document the development process.</p>
+                    <a href="../Blogs/BuildingARobot.html">Read Article</a>
                 </div>
                 <div class="related-card">
                     <h4>Choosing the Right Motors</h4>
                     <p>Learn about different motor types and how to select the perfect one for your robotics project.</p>
+                    <a href="#">Coming Soon</a>
                 </div>
             </div>
         </div>
