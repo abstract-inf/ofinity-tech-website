@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Robot from Scratch | Ofinity Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0F0A1A;
+            --primary-accent: #00BFFF;
+            --secondary-accent: #00FFFF;
+            --highlight-accent: #00E5FF;
+            --neon-magenta: #FF00CC;
+            --text-light: #FFFFFF;
+            --text-muted: rgba(255,255,255,0.8);
+            --card-bg: rgba(15, 10, 26, 0.7);
+            --nav-bg: rgba(15, 10, 26, 0.95);
+            --button-bg: #00BFFF;
+            --button-hover: #00FFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 191, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 204, 0.05) 0%, transparent 20%);
+        }
+
+        .section {
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 15px rgba(255, 0, 204, 0.7);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+            50% { text-shadow: 0 0 25px rgba(255, 0, 204, 0.9); }
+            100% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            margin: 1rem 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        .blog-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+
+        .post-meta {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-content {
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .post-content h3 {
+            color: var(--primary-accent);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+            border-left: 3px solid var(--secondary-accent);
+            padding-left: 15px;
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .post-content li::before {
+            content: '▹';
+            color: var(--secondary-accent);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .design-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .design-item {
+            background: rgba(0, 30, 60, 0.3);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .design-placeholder {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 50, 100, 0.2);
+            border: 1px dashed var(--secondary-accent);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .design-placeholder i {
+            font-size: 3rem;
+            color: var(--secondary-accent);
+            opacity: 0.5;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 3rem 0;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-accent), var(--neon-magenta));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--secondary-accent);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--secondary-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary-accent);
+            text-decoration: none;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--secondary-accent);
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 191, 255, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-logo:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .current-page {
+            color: var(--secondary-accent);
+        }
+
+        .current-page::after {
+            transform: scaleX(1);
+        }
+        
+        .related-posts {
+            margin-top: 4rem;
+        }
+        
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .related-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .related-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--secondary-accent);
+        }
+        
+        .related-card h4 {
+            color: var(--secondary-accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .related-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .challenge {
+            background: rgba(100, 0, 50, 0.2);
+            border-left: 3px solid var(--neon-magenta);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .solution {
+            background: rgba(0, 100, 50, 0.2);
+            border-left: 3px solid var(--secondary-accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .blog-content {
+                padding: 1.5rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .design-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Ofinity Tech</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AboutUs.html" class="nav-link">About Us</a>
+                <a href="Products.html" class="nav-link">Products</a>
+                <a href="BlogPage.html" class="nav-link current-page">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <h1 class="section-title">Building a Robot from Scratch: Our Journey</h1>
+        
+        <div class="blog-content">
+            <div class="post-meta">
+                <span><i class="far fa-calendar-alt"></i> April 22, 2025</span>
+                <span><i class="far fa-user"></i> Amro Hammad</span>
+                <span><i class="far fa-clock"></i> 12 min read</span>
+            </div>
+            
+            <div class="post-content">
+                <p>Building an educational robot from scratch has been one of the most rewarding challenges our team has undertaken. In this article, we'll take you behind the scenes of our journey - from initial concept to finished product - sharing the lessons we learned, challenges we overcame, and insights we gained along the way.</p>
+                
+                <h3>The Concept: EduBot 3000</h3>
+                <p>Our goal was to create an affordable, modular educational robot that could:</p>
+                
+                <ul>
+                    <li>Teach core robotics concepts to students aged 12+</li>
+                    <li>Be assembled in under 30 minutes</li>
+                    <li>Support multiple programming environments (Blockly, Python, C++)</li>
+                    <li>Include expandable sensor modules</li>
+                    <li>Provide classroom-friendly durability</li>
+                </ul>
+                
+                <div class="design-gallery">
+                    <div class="design-item">
+                        <div class="design-placeholder">
+                            <i class="fas fa-pencil-ruler"></i>
+                        </div>
+                        <h4>Initial Sketch</h4>
+                        <p>First concept of modular design</p>
+                    </div>
+                    <div class="design-item">
+                        <div class="design-placeholder">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h4>3D Model</h4>
+                        <p>CAD design of the chassis</p>
+                    </div>
+                    <div class="design-item">
+                        <div class="design-placeholder">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h4>Circuit Design</h4>
+                        <p>Main controller board schematic</p>
+                    </div>
+                </div>
+                
+                <h3>Development Timeline</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">January 2024</div>
+                        <p>Initial concept development and market research. Defined target audience and educational objectives.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">March 2024</div>
+                        <p>First prototype built using 3D-printed parts and off-the-shelf components. Testing revealed structural weaknesses.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">May 2024</div>
+                        <p>Second iteration with injection-molded chassis. Improved motor mounting system. Added modular sensor ports.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">August 2024</div>
+                        <p>Custom PCB designed and manufactured. Reduced wiring complexity by 70% compared to prototype.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">November 2024</div>
+                        <p>Educational materials developed. Created 12 lesson plans with coding challenges and projects.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">February 2025</div>
+                        <p>Beta testing in 3 local schools. Collected feedback from 120 students and 8 teachers.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">April 2025</div>
+                        <p>Final production version released. Incorporated all feedback from beta testing phase.</p>
+                    </div>
+                </div>
+                
+                <h3>Key Challenges & Solutions</h3>
+                
+                <div class="challenge">
+                    <h4>Challenge: Structural Integrity</h4>
+                    <p>Our initial 3D-printed chassis couldn't withstand classroom use. Joints failed after repeated assembly.</p>
+                </div>
+                
+                <div class="solution">
+                    <h4>Solution: Modular Injection Molding</h4>
+                    <p>We designed snap-fit modular components with reinforced joints. Used ABS plastic for durability.</p>
+                </div>
+                
+                <div class="challenge">
+                    <h4>Challenge: Wiring Complexity</h4>
+                    <p>Early prototypes had messy wiring that frustrated students and increased failure points.</p>
+                </div>
+                
+                <div class="solution">
+                    <h4>Solution: Custom PCB with Magnetic Connectors</h4>
+                    <p>Developed a custom mainboard with color-coded magnetic connectors for foolproof assembly.</p>
+                </div>
+                
+                <div class="challenge">
+                    <h4>Challenge: Software Accessibility</h4>
+                    <p>Balancing advanced capabilities with beginner-friendly interfaces proved difficult.</p>
+                </div>
+                
+                <div class="solution">
+                    <h4>Solution: Progressive Learning System</h4>
+                    <p>Created three programming modes: Blockly for beginners, Python for intermediates, and C++ for advanced users.</p>
+                </div>
+                
+                <h3>Technical Specifications</h3>
+                <p>The final EduBot 3000 features:</p>
+                
+                <ul>
+                    <li><strong>Processor</strong>: ESP32 Dual-Core 240MHz</li>
+                    <li><strong>Wireless</strong>: Bluetooth 5.0 + WiFi</li>
+                    <li><strong>Motors</strong>: 2x Encoder-equipped DC motors (150 RPM)</li>
+                    <li><strong>Sensors</strong>: IMU (Accelerometer + Gyro), Color sensor, Ultrasonic, Line follower</li>
+                    <li><strong>Expansion</strong>: 4x Modular sensor ports</li>
+                    <li><strong>Battery</strong>: 2000mAh Li-Po with 4-hour runtime</li>
+                    <li><strong>Programming</strong>: Blockly, Python, Arduino C++</li>
+                </ul>
+                
+                <h3>Educational Philosophy</h3>
+                <p>We designed EduBot around four core learning principles:</p>
+                
+                <ul>
+                    <li><strong>Progressive Complexity</strong>: Start simple, advance to complex concepts</li>
+                    <li><strong>Tangible Results</strong>: Immediate physical feedback from code</li>
+                    <li><strong>Creative Freedom</strong>: Multiple solutions to each challenge</li>
+                    <li><strong>Collaborative Learning</strong>: Designed for team projects</li>
+                </ul>
+                
+                <h3>Beta Testing Insights</h3>
+                <p>Our school beta program revealed unexpected insights:</p>
+                
+                <ul>
+                    <li>Students spent 40% more time with physical robots than with simulations</li>
+                    <li>Teams of 3 worked better than pairs for complex challenges</li>
+                    <li>Color-coded components reduced assembly errors by 65%</li>
+                    <li>Teachers wanted more real-world application examples</li>
+                    <li>Durability was the #1 concern for classroom use</li>
+                </ul>
+                
+                <h3>Lessons Learned</h3>
+                <p>This journey taught us invaluable lessons about product development:</p>
+                
+                <ul>
+                    <li><strong>Simplicity is harder than complexity</strong>: Making something simple and intuitive requires more design iterations</li>
+                    <li><strong>Durability is non-negotiable</strong>: Educational products must withstand enthusiastic (and sometimes rough) handling</li>
+                    <li><strong>Documentation is critical</strong>: Clear instructions are as important as the product itself</li>
+                    <li><strong>Teacher input is gold</strong>: Educators provided insights we never would have considered</li>
+                    <li><strong>Flexibility beats features</strong>: A flexible platform sparks more creativity than pre-programmed behaviors</li>
+                </ul>
+                
+                <p>Building EduBot 3000 from scratch was a challenging but incredibly rewarding journey. We're excited to see what students will create with these tools and how they'll shape the next generation of roboticists!</p>
+            </div>
+            
+            <a href="BlogPage.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to All Articles
+            </a>
+        </div>
+        
+        <div class="related-posts">
+            <h3 class="related-title">Related Articles</h3>
+            <div class="related-grid">
+                <div class="related-card">
+                    <h4>Getting Started with Arduino Robotics</h4>
+                    <p>Learn the fundamentals of Arduino robotics with our comprehensive beginner's guide.</p>
+                </div>
+                <div class="related-card">
+                    <h4>Advanced PID Control for Robotics</h4>
+                    <p>Master precision control systems for your robotic projects with our in-depth guide.</p>
+                </div>
+                <div class="related-card">
+                    <h4>Designing Educational Robotics Kits</h4>
+                    <p>Key considerations for creating effective STEM learning tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to headings
+            const headings = document.querySelectorAll('h1, h2, h3');
+            
+            headings.forEach(heading => {
+                heading.style.opacity = "0";
+                heading.style.transform = "translateY(20px)";
+                heading.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            });
+            
+            setTimeout(() => {
+                headings.forEach((heading, index) => {
+                    setTimeout(() => {
+                        heading.style.opacity = "1";
+                        heading.style.transform = "translateY(0)";
+                    }, 200 + (index * 100));
+                });
+            }, 300);
+            
+            // Timeline animation
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            timelineItems.forEach((item, index) => {
+                item.style.opacity = "0";
+                item.style.transform = "translateX(-20px)";
+                item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                
+                setTimeout(() => {
+                    item.style.opacity = "1";
+                    item.style.transform = "translateX(0)";
+                }, 500 + (index * 200));
+            });
+            
+            // Design placeholders animation
+            const designItems = document.querySelectorAll('.design-item');
+            
+            designItems.forEach((item, index) => {
+                item.style.opacity = "0";
+                item.style.transform = "scale(0.9)";
+                item.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                
+                setTimeout(() => {
+                    item.style.opacity = "1";
+                    item.style.transform = "scale(1)";
+                }, 800 + (index * 200));
+            });
+        });
+    </script>
+</body>
+</html>

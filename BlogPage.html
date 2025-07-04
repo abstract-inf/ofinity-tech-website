@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ofinity Tech Blog - Latest news and tutorials about Arduino robotics">
-    <link rel="icon" href="imgs/logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="imgs/logo.png">
-    <link rel="shortcut icon" href="imgs/logo.png" type="image/x-icon">
-    <title>Blog | Ofinity Tech</title>
+    <title>Ofinity Tech Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-dark: #0F0A1A;
@@ -27,44 +24,54 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: var(--primary-dark);
+            background: var(--primary-dark); /* Fixed background */
             color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .section {
-            min-height: 100vh;
-            padding: 4rem;
+            padding: 6rem 2rem 4rem;
             position: relative;
-            overflow: hidden;
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 3rem;
             text-align: center;
             position: relative;
             color: var(--neon-magenta);
-            text-shadow: 0 0 12px rgba(255, 0, 204, 0.5);
+            text-shadow: 0 0 15px rgba(255, 0, 204, 0.7);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+            50% { text-shadow: 0 0 25px rgba(255, 0, 204, 0.9); }
+            100% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
         }
 
         .section-title::after {
             content: '';
             display: block;
-            width: 100px;
-            height: 3px;
+            width: 120px;
+            height: 4px;
             background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
             margin: 1rem auto;
             border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
         }
 
         .blog-container {
             max-width: 1000px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .blog-post {
@@ -73,20 +80,49 @@
             border-radius: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 191, 255, 0.3);
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .blog-post::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
         }
 
         .blog-post:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.2);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 191, 255, 0.3);
             border-color: var(--secondary-accent);
+        }
+
+        .blog-post:hover::before {
+            transform: scaleX(1);
         }
 
         .post-title {
             color: var(--primary-accent);
             margin-bottom: 1rem;
             font-size: 1.8rem;
+            transition: color 0.3s;
+            text-align: center;
+        }
+
+        .blog-post:hover .post-title {
+            color: var(--secondary-accent);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
         .post-meta {
@@ -94,28 +130,43 @@
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
             display: flex;
-            gap: 1rem;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .post-content {
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
         }
 
         .read-more {
-            color: var(--secondary-accent);
+            color: var(--text-light);
             text-decoration: none;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 30px;
+            transition: all 0.3s;
+            border: none;
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
         }
 
         .read-more:hover {
-            text-decoration: underline;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.6);
+            background: linear-gradient(45deg, var(--secondary-accent), var(--highlight-accent));
         }
-
+        
         nav {
             position: fixed;
             top: 0;
@@ -137,11 +188,28 @@
         }
 
         .nav-logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-logo:hover::after {
+            transform: scaleX(1);
         }
 
         .nav-links {
@@ -156,21 +224,54 @@
             font-weight: 500;
             padding: 0.5rem 1rem;
             border-radius: 5px;
+            position: relative;
         }
 
-        .nav-link:hover {
-            color: var(--secondary-accent);
-            background: rgba(0, 191, 255, 0.1);
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
         }
 
         .current-page {
             color: var(--secondary-accent);
-            border-bottom: 2px solid var(--secondary-accent);
+        }
+
+        .current-page::after {
+            transform: scaleX(1);
+        }
+        
+        /* Subtle background effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 191, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 204, 0.05) 0%, transparent 20%);
+            z-index: -1;
         }
 
         @media (max-width: 768px) {
             .section {
-                padding: 2rem;
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
             }
             
             .nav-container {
@@ -179,17 +280,20 @@
             }
             
             .nav-links {
-                gap: 1rem;
+                gap: 0.5rem;
                 flex-wrap: wrap;
                 justify-content: center;
             }
             
-            .section-title {
-                font-size: 2.5rem;
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-post {
+                padding: 1.5rem;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav>
@@ -218,7 +322,7 @@
                     <p>Learn the fundamentals of Arduino robotics with our comprehensive beginner's guide. We cover everything from setting up your development environment to programming your first robot.</p>
                     <p>This tutorial includes step-by-step instructions and code samples to help you build a simple line-following robot using basic components.</p>
                 </div>
-                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                <a href="Blogs/GettingStarted.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
             </article>
 
             <!-- Blog Post 2 -->
@@ -232,7 +336,7 @@
                     <p>Take your robotics projects to the next level with our in-depth guide to PID control systems. We explain the theory behind PID controllers and show practical implementations for robotics applications.</p>
                     <p>Includes real-world examples from our Maze Master 3000 robot, with downloadable code samples.</p>
                 </div>
-                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                <a href="Blogs/PIDControl.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
             </article>
 
             <!-- Blog Post 3 -->
@@ -246,15 +350,44 @@
                     <p>Follow our team's journey from concept to finished product as we document the development of our latest educational robot kit. Learn about the challenges we faced and how we overcame them.</p>
                     <p>This behind-the-scenes look includes design sketches, prototype photos, and lessons learned.</p>
                 </div>
-                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                <a href="Blogs/BuildingARobot.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
             </article>
         </div>
     </section>
 
     <script>
-        // Simple script for future functionality
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Blog page loaded');
+            // Add animation to blog cards on scroll
+            const blogPosts = document.querySelectorAll('.blog-post');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            blogPosts.forEach((post, index) => {
+                post.style.opacity = "0";
+                post.style.transform = "translateY(30px)";
+                post.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                post.style.transitionDelay = `${index * 0.2}s`;
+                
+                observer.observe(post);
+            });
+            
+            // Add active state to navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('current-page'));
+                    this.classList.add('current-page');
+                });
+            });
         });
     </script>
 </body>
