@@ -170,10 +170,11 @@
             border: 1px solid var(--secondary-accent);
             border-radius: 30px;
             transition: all 0.3s;
+            background: rgba(0, 191, 255, 0.1);
         }
 
         .back-button:hover {
-            background: rgba(0, 191, 255, 0.1);
+            background: rgba(0, 191, 255, 0.2);
             transform: translateX(-5px);
         }
         
@@ -313,6 +314,18 @@
             font-size: 0.95rem;
             line-height: 1.6;
         }
+        
+        .related-card a {
+            color: var(--secondary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .related-card a:hover {
+            text-decoration: underline;
+        }
 
         .pid-visual {
             display: flex;
@@ -416,10 +429,11 @@
         <div class="nav-container">
             <div class="nav-logo">Ofinity Tech</div>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="AboutUs.html" class="nav-link">About Us</a>
-                <a href="Products.html" class="nav-link">Products</a>
-                <a href="BlogPage.html" class="nav-link current-page">Blogs</a>
+                <!-- Fixed navigation links -->
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../AboutUs.html" class="nav-link">About Us</a>
+                <a href="../Products.html" class="nav-link">Products</a>
+                <a href="../BlogPage.html" class="nav-link current-page">Blogs</a>
             </div>
         </div>
     </nav>
@@ -607,7 +621,8 @@ void navigateMaze() {
                 <p>Mastering PID control will transform your robotics projects, enabling precise and stable movement in complex environments. Start with simple implementations and gradually add complexity as you gain experience.</p>
             </div>
             
-            <a href="BlogPage.html" class="back-button">
+            <!-- Fixed back button -->
+            <a href="../BlogPage.html" class="back-button">
                 <i class="fas fa-arrow-left"></i> Back to All Articles
             </a>
         </div>
@@ -618,14 +633,17 @@ void navigateMaze() {
                 <div class="related-card">
                     <h4>Getting Started with Arduino Robotics</h4>
                     <p>Learn the fundamentals of Arduino robotics with our comprehensive beginner's guide.</p>
+                    <a href="../Blogs/GettingStarted.html">Read Article</a>
                 </div>
                 <div class="related-card">
                     <h4>Building a Robot from Scratch</h4>
                     <p>Follow our team's journey from concept to finished product as we document the development process.</p>
+                    <a href="../Blogs/BuildingARobot.html">Read Article</a>
                 </div>
                 <div class="related-card">
                     <h4>Sensor Fusion Techniques</h4>
                     <p>Combine data from multiple sensors to create more reliable robotic systems.</p>
+                    <a href="#">Coming Soon</a>
                 </div>
             </div>
         </div>
