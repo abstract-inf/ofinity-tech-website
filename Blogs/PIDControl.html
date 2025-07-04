@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced PID Control for Robotics | Ofinity Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0F0A1A;
+            --primary-accent: #00BFFF;
+            --secondary-accent: #00FFFF;
+            --highlight-accent: #00E5FF;
+            --neon-magenta: #FF00CC;
+            --text-light: #FFFFFF;
+            --text-muted: rgba(255,255,255,0.8);
+            --card-bg: rgba(15, 10, 26, 0.7);
+            --nav-bg: rgba(15, 10, 26, 0.95);
+            --button-bg: #00BFFF;
+            --button-hover: #00FFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 191, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 204, 0.05) 0%, transparent 20%);
+        }
+
+        .section {
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 15px rgba(255, 0, 204, 0.7);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+            50% { text-shadow: 0 0 25px rgba(255, 0, 204, 0.9); }
+            100% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            margin: 1rem 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        .blog-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+
+        .post-meta {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-content {
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .post-content h3 {
+            color: var(--primary-accent);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+            border-left: 3px solid var(--secondary-accent);
+            padding-left: 15px;
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .post-content li::before {
+            content: '▹';
+            color: var(--secondary-accent);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .formula {
+            background: rgba(0, 30, 60, 0.5);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.5rem;
+            font-family: 'Cambria', serif;
+        }
+
+        .code-block {
+            background: rgba(0, 30, 60, 0.5);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary-accent);
+            text-decoration: none;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--secondary-accent);
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 191, 255, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-logo:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .current-page {
+            color: var(--secondary-accent);
+        }
+
+        .current-page::after {
+            transform: scaleX(1);
+        }
+        
+        .related-posts {
+            margin-top: 4rem;
+        }
+        
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .related-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .related-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--secondary-accent);
+        }
+        
+        .related-card h4 {
+            color: var(--secondary-accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .related-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .pid-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .pid-graph {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 30, 60, 0.3);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .pid-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--secondary-accent);
+            animation: pidAnimation 6s infinite ease-in-out;
+        }
+        
+        @keyframes pidAnimation {
+            0% { transform: translateX(-100%); }
+            20% { transform: translateX(0); }
+            40% { transform: translateX(0) scaleY(1); }
+            50% { transform: translateX(0) scaleY(1.5); }
+            60% { transform: translateX(0) scaleY(1); }
+            80% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .pid-components {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 1rem;
+        }
+        
+        .pid-component {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .pid-p {
+            background: rgba(0, 100, 200, 0.2);
+            border: 1px solid var(--primary-accent);
+        }
+        
+        .pid-i {
+            background: rgba(100, 0, 200, 0.2);
+            border: 1px solid var(--neon-magenta);
+        }
+        
+        .pid-d {
+            background: rgba(0, 200, 100, 0.2);
+            border: 1px solid var(--secondary-accent);
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .blog-content {
+                padding: 1.5rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .pid-components {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Ofinity Tech</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AboutUs.html" class="nav-link">About Us</a>
+                <a href="Products.html" class="nav-link">Products</a>
+                <a href="BlogPage.html" class="nav-link current-page">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <h1 class="section-title">Advanced PID Control for Robotics</h1>
+        
+        <div class="blog-content">
+            <div class="post-meta">
+                <span><i class="far fa-calendar-alt"></i> April 22, 2025</span>
+                <span><i class="far fa-user"></i> Murad Zughair</span>
+                <span><i class="far fa-clock"></i> 10 min read</span>
+            </div>
+            
+            <div class="post-content">
+                <p>PID control is the cornerstone of modern robotics, enabling precise movement, stability, and responsiveness. This advanced guide will take you beyond the basics and show you how to implement sophisticated PID controllers for your robotics projects, with real-world examples from our Maze Master 3000 robot.</p>
+                
+                <h3>Understanding PID Control</h3>
+                <p>PID stands for Proportional, Integral, and Derivative control. It's a feedback control mechanism that continuously calculates an error value as the difference between a desired setpoint and a measured process variable, then applies a correction based on proportional, integral, and derivative terms.</p>
+                
+                <div class="formula">
+                    Output = K<sub>p</sub> × e(t) + K<sub>i</sub> × ∫e(t)dt + K<sub>d</sub> × de(t)/dt
+                </div>
+                
+                <div class="pid-visual">
+                    <div class="pid-graph">
+                        <div class="pid-line"></div>
+                    </div>
+                    <div class="pid-components">
+                        <div class="pid-component pid-p">
+                            <h4>Proportional (P)</h4>
+                            <p>Current error correction</p>
+                        </div>
+                        <div class="pid-component pid-i">
+                            <h4>Integral (I)</h4>
+                            <p>Past error accumulation</p>
+                        </div>
+                        <div class="pid-component pid-d">
+                            <h4>Derivative (D)</h4>
+                            <p>Future error prediction</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Implementing PID in Arduino</h3>
+                <p>Here's a basic PID controller implementation in Arduino. This code provides a framework you can adapt for various robotics applications:</p>
+                
+                <div class="code-block">
+                    <pre>class PIDController {
+  public:
+    // PID gains
+    float Kp, Ki, Kd;
+    
+    // Variables for PID calculation
+    float error, lastError, integral, derivative;
+    
+    // Time variables
+    unsigned long currentTime, previousTime;
+    float elapsedTime;
+    
+    // Constructor
+    PIDController(float Kp, float Ki, float Kd) {
+        this->Kp = Kp;
+        this->Ki = Ki;
+        this->Kd = Kd;
+        lastError = 0;
+        integral = 0;
+        previousTime = millis();
+    }
+    
+    // Calculate PID output
+    float compute(float setpoint, float input) {
+        // Calculate error
+        error = setpoint - input;
+        
+        // Calculate time difference
+        currentTime = millis();
+        elapsedTime = (currentTime - previousTime) / 1000.0; // Convert to seconds
+        
+        // Proportional term
+        float Pout = Kp * error;
+        
+        // Integral term with anti-windup
+        integral += error * elapsedTime;
+        // Apply integral limits to prevent windup
+        integral = constrain(integral, -100, 100);
+        float Iout = Ki * integral;
+        
+        // Derivative term (using derivative on measurement)
+        derivative = (input - lastError) / elapsedTime;
+        float Dout = Kd * derivative;
+        
+        // Calculate total output
+        float output = Pout + Iout - Dout; // Note: D term subtracted for derivative on measurement
+        
+        // Remember values for next iteration
+        lastError = input;
+        previousTime = currentTime;
+        
+        return output;
+    }
+};
+
+// Example usage for motor speed control
+PIDController speedPID(0.8, 0.05, 0.1); // Kp, Ki, Kd values
+
+void setup() {
+    // Initialize your motor controllers and sensors
+}
+
+void loop() {
+    float desiredSpeed = 100; // RPM
+    float currentSpeed = readMotorSpeed(); // Implement this function
+    
+    float controlSignal = speedPID.compute(desiredSpeed, currentSpeed);
+    
+    // Apply control signal to motor
+    setMotorSpeed(controlSignal); // Implement this function
+    
+    delay(20); // Control loop timing
+}</pre>
+                </div>
+                
+                <h3>Tuning PID Parameters</h3>
+                <p>Proper PID tuning is critical for optimal performance. Here's our systematic approach:</p>
+                
+                <ol>
+                    <li><strong>Start with P only</strong>: Set Ki and Kd to zero. Increase Kp until the system oscillates, then reduce to 50% of that value.</li>
+                    <li><strong>Add Integral term</strong>: Increase Ki until the system reaches the setpoint with minimal steady-state error. Too much Ki causes overshoot.</li>
+                    <li><strong>Add Derivative term</strong>: Increase Kd to reduce overshoot and settling time. Too much Kd causes system instability.</li>
+                    <li><strong>Fine-tune all parameters</strong>: Make small adjustments to all parameters for optimal performance.</li>
+                </ol>
+                
+                <h3>Advanced PID Techniques</h3>
+                <p>For complex robotics systems, consider these advanced techniques:</p>
+                
+                <ul>
+                    <li><strong>Cascade Control</strong>: Use two PID controllers where the output of one becomes the setpoint of another</li>
+                    <li><strong>Feedforward Control</strong>: Predict control output based on system model to complement PID</li>
+                    <li><strong>Gain Scheduling</strong>: Change PID parameters dynamically based on operating conditions</li>
+                    <li><strong>Fuzzy Logic Adaptation</strong>: Use fuzzy rules to adjust parameters in real-time</li>
+                </ul>
+                
+                <h3>Case Study: Maze Master 3000</h3>
+                <p>Our Maze Master 3000 robot uses a sophisticated dual PID system for navigation:</p>
+                
+                <div class="code-block">
+                    <pre>// Maze Master 3000 PID Implementation
+PIDController headingPID(1.2, 0.01, 0.3);
+PIDController wallFollowPID(0.7, 0.001, 0.15);
+
+void navigateMaze() {
+    // Read sensors
+    float currentHeading = readCompass();
+    float leftDistance = readLeftDistanceSensor();
+    float rightDistance = readRightDistanceSensor();
+    
+    // Wall-following PID (maintain equal distance to walls)
+    float wallError = leftDistance - rightDistance;
+    float wallCorrection = wallFollowPID.compute(0, wallError);
+    
+    // Heading PID (maintain desired heading)
+    float headingCorrection = headingPID.compute(desiredHeading, currentHeading);
+    
+    // Combine corrections
+    float leftMotorSpeed = baseSpeed - headingCorrection - wallCorrection;
+    float rightMotorSpeed = baseSpeed + headingCorrection + wallCorrection;
+    
+    // Apply motor speeds
+    setLeftMotorSpeed(leftMotorSpeed);
+    setRightMotorSpeed(rightMotorSpeed);
+}</pre>
+                </div>
+                
+                <h3>Common Challenges & Solutions</h3>
+                <p>When implementing PID in robotics, watch for these common issues:</p>
+                
+                <ul>
+                    <li><strong>Integral Windup</strong>: Use clamping or back-calculation to limit integral accumulation</li>
+                    <li><strong>Noise Amplification</strong>: Add low-pass filtering to derivative term</li>
+                    <li><strong>Nonlinear Systems</strong>: Implement gain scheduling or adaptive control</li>
+                    <li><strong>Computational Limits</strong>: Optimize code and use fixed-point arithmetic</li>
+                </ul>
+                
+                <p>Mastering PID control will transform your robotics projects, enabling precise and stable movement in complex environments. Start with simple implementations and gradually add complexity as you gain experience.</p>
+            </div>
+            
+            <a href="BlogPage.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to All Articles
+            </a>
+        </div>
+        
+        <div class="related-posts">
+            <h3 class="related-title">Related Articles</h3>
+            <div class="related-grid">
+                <div class="related-card">
+                    <h4>Getting Started with Arduino Robotics</h4>
+                    <p>Learn the fundamentals of Arduino robotics with our comprehensive beginner's guide.</p>
+                </div>
+                <div class="related-card">
+                    <h4>Building a Robot from Scratch</h4>
+                    <p>Follow our team's journey from concept to finished product as we document the development process.</p>
+                </div>
+                <div class="related-card">
+                    <h4>Sensor Fusion Techniques</h4>
+                    <p>Combine data from multiple sensors to create more reliable robotic systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to headings
+            const headings = document.querySelectorAll('h1, h2, h3');
+            
+            headings.forEach(heading => {
+                heading.style.opacity = "0";
+                heading.style.transform = "translateY(20px)";
+                heading.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            });
+            
+            setTimeout(() => {
+                headings.forEach((heading, index) => {
+                    setTimeout(() => {
+                        heading.style.opacity = "1";
+                        heading.style.transform = "translateY(0)";
+                    }, 200 + (index * 100));
+                });
+            }, 300);
+            
+            // Syntax highlighting simulation for code blocks
+            const codeBlocks = document.querySelectorAll('.code-block');
+            
+            codeBlocks.forEach(block => {
+                const text = block.querySelector('pre').textContent;
+                block.querySelector('pre').innerHTML = '';
+                
+                const lines = text.split('\n');
+                lines.forEach(line => {
+                    const lineElem = document.createElement('div');
+                    lineElem.style.display = 'block';
+                    lineElem.style.lineHeight = '1.5';
+                    
+                    // Syntax highlighting for PID code
+                    if (line.trim().startsWith('//')) {
+                        lineElem.innerHTML = `<span style="color: #6A9955;">${line}</span>`;
+                    } else if (line.includes('class') || line.includes('public') || 
+                               line.includes('private') || line.includes('float') ||
+                               line.includes('void') || line.includes('return')) {
+                        const parts = line.split(/(class|public|private|float|void|return|PIDController)/);
+                        lineElem.innerHTML = parts.map(part => {
+                            if (['class', 'public', 'private', 'float', 'void', 'return', 'PIDController'].includes(part)) {
+                                return `<span style="color: #569CD6;">${part}</span>`;
+                            } else if (['Kp', 'Ki', 'Kd', 'error', 'integral', 'derivative'].includes(part)) {
+                                return `<span style="color: #9CDCFE;">${part}</span>`;
+                            }
+                            return part;
+                        }).join('');
+                    } else {
+                        lineElem.textContent = line;
+                    }
+                    
+                    block.querySelector('pre').appendChild(lineElem);
+                });
+            });
+            
+            // Animate PID visualization
+            const pidLine = document.querySelector('.pid-line');
+            setInterval(() => {
+                pidLine.style.animation = 'none';
+                setTimeout(() => {
+                    pidLine.style.animation = 'pidAnimation 6s infinite ease-in-out';
+                }, 10);
+            }, 6000);
+        });
+    </script>
+</body>
+</html>

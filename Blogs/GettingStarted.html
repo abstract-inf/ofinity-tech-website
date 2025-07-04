@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started with Arduino Robotics | Ofinity Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0F0A1A;
+            --primary-accent: #00BFFF;
+            --secondary-accent: #00FFFF;
+            --highlight-accent: #00E5FF;
+            --neon-magenta: #FF00CC;
+            --text-light: #FFFFFF;
+            --text-muted: rgba(255,255,255,0.8);
+            --card-bg: rgba(15, 10, 26, 0.7);
+            --nav-bg: rgba(15, 10, 26, 0.95);
+            --button-bg: #00BFFF;
+            --button-hover: #00FFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--primary-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 191, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 204, 0.05) 0%, transparent 20%);
+        }
+
+        .section {
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 15px rgba(255, 0, 204, 0.7);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+            50% { text-shadow: 0 0 25px rgba(255, 0, 204, 0.9); }
+            100% { text-shadow: 0 0 15px rgba(255, 0, 204, 0.7); }
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            margin: 1rem 0;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        .blog-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+
+        .post-meta {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-content {
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .post-content h3 {
+            color: var(--primary-accent);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .post-content li::before {
+            content: '▹';
+            color: var(--secondary-accent);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .code-block {
+            background: rgba(0, 30, 60, 0.5);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary-accent);
+            text-decoration: none;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--secondary-accent);
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 191, 255, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-logo:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .current-page {
+            color: var(--secondary-accent);
+        }
+
+        .current-page::after {
+            transform: scaleX(1);
+        }
+        
+        .related-posts {
+            margin-top: 4rem;
+        }
+        
+        .related-title {
+            font-size: 1.8rem;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .related-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .related-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--secondary-accent);
+        }
+        
+        .related-card h4 {
+            color: var(--secondary-accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .related-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .blog-content {
+                padding: 1.5rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Ofinity Tech</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AboutUs.html" class="nav-link">About Us</a>
+                <a href="Products.html" class="nav-link">Products</a>
+                <a href="BlogPage.html" class="nav-link current-page">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="section">
+        <h1 class="section-title">Getting Started with Arduino Robotics</h1>
+        
+        <div class="blog-content">
+            <div class="post-meta">
+                <span><i class="far fa-calendar-alt"></i> April 22, 2025</span>
+                <span><i class="far fa-user"></i> Yazan AlAtout</span>
+                <span><i class="far fa-clock"></i> 8 min read</span>
+            </div>
+            
+            <div class="post-content">
+                <p>Welcome to the exciting world of Arduino robotics! This comprehensive beginner's guide will walk you through everything you need to know to start building your first robot. Whether you're completely new to electronics or have some experience, this tutorial will help you understand the fundamentals and get your robot up and running.</p>
+                
+                <h3>What You'll Need</h3>
+                <p>Before we dive in, let's gather the essential components for your first robotics project:</p>
+                
+                <ul>
+                    <li>Arduino Uno board (or compatible)</li>
+                    <li>Motor driver module (L298N or similar)</li>
+                    <li>2 DC motors with wheels</li>
+                    <li>Chassis kit</li>
+                    <li>Battery pack (6-9V)</li>
+                    <li>Jumper wires</li>
+                    <li>Breadboard</li>
+                    <li>Line following sensors (optional)</li>
+                    <li>Ultrasonic sensor (optional)</li>
+                </ul>
+                
+                <h3>Setting Up Your Arduino Environment</h3>
+                <p>The first step is to install the Arduino IDE (Integrated Development Environment) on your computer:</p>
+                
+                <ol>
+                    <li>Download the Arduino IDE from the official website</li>
+                    <li>Install the software following the instructions for your operating system</li>
+                    <li>Connect your Arduino board to your computer via USB</li>
+                    <li>Install any necessary drivers (usually automatic on modern systems)</li>
+                    <li>Select the correct board and port in the Tools menu</li>
+                </ol>
+                
+                <h3>Building Your First Robot</h3>
+                <p>Now let's assemble a simple two-wheeled robot:</p>
+                
+                <ol>
+                    <li>Assemble the chassis according to the kit instructions</li>
+                    <li>Mount the motors and attach the wheels</li>
+                    <li>Secure the Arduino and motor driver to the chassis</li>
+                    <li>Connect the motors to the motor driver</li>
+                    <li>Connect the motor driver to the Arduino</li>
+                    <li>Attach the battery pack</li>
+                </ol>
+                
+                <h3>Basic Motor Control</h3>
+                <p>Let's write a simple program to make your robot move forward and backward:</p>
+                
+                <div class="code-block">
+                    <pre>// Define motor pins
+const int motorA1 = 5;  // Motor A input 1
+const int motorA2 = 6;  // Motor A input 2
+const int motorB1 = 9;  // Motor B input 1
+const int motorB2 = 10; // Motor B input 2
+
+void setup() {
+  // Set motor pins as outputs
+  pinMode(motorA1, OUTPUT);
+  pinMode(motorA2, OUTPUT);
+  pinMode(motorB1, OUTPUT);
+  pinMode(motorB2, OUTPUT);
+}
+
+void loop() {
+  // Move forward
+  moveForward();
+  delay(2000); // Move for 2 seconds
+  
+  // Stop
+  stopMotors();
+  delay(500);
+  
+  // Move backward
+  moveBackward();
+  delay(2000);
+  
+  // Stop
+  stopMotors();
+  delay(500);
+}
+
+void moveForward() {
+  digitalWrite(motorA1, HIGH);
+  digitalWrite(motorA2, LOW);
+  digitalWrite(motorB1, HIGH);
+  digitalWrite(motorB2, LOW);
+}
+
+void moveBackward() {
+  digitalWrite(motorA1, LOW);
+  digitalWrite(motorA2, HIGH);
+  digitalWrite(motorB1, LOW);
+  digitalWrite(motorB2, HIGH);
+}
+
+void stopMotors() {
+  digitalWrite(motorA1, LOW);
+  digitalWrite(motorA2, LOW);
+  digitalWrite(motorB1, LOW);
+  digitalWrite(motorB2, LOW);
+}</pre>
+                </div>
+                
+                <h3>Adding Sensors</h3>
+                <p>To make your robot more intelligent, you can add sensors. Here's how to connect and use an ultrasonic distance sensor:</p>
+                
+                <div class="code-block">
+                    <pre>// Ultrasonic sensor pins
+const int trigPin = 7;
+const int echoPin = 8;
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  
+  // Set ultrasonic pins
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+
+void loop() {
+  // Measure distance
+  long duration, distance;
+  
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  
+  delay(500);
+}</pre>
+                </div>
+                
+                <h3>Next Steps</h3>
+                <p>Now that you have a basic robot up and running, here are some ideas for your next projects:</p>
+                
+                <ul>
+                    <li>Build a line-following robot using infrared sensors</li>
+                    <li>Create an obstacle-avoiding robot with ultrasonic sensors</li>
+                    <li>Add Bluetooth control using an HC-05 module</li>
+                    <li>Implement a robotic arm with servo motors</li>
+                    <li>Create a self-balancing robot using an MPU-6050 gyroscope</li>
+                </ul>
+                
+                <p>Remember, the key to learning robotics is experimentation. Don't be afraid to try new things, make mistakes, and learn from them. The Arduino community is incredibly supportive, so don't hesitate to ask for help when you need it.</p>
+            </div>
+            
+            <a href="BlogPage.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to All Articles
+            </a>
+        </div>
+        
+        <div class="related-posts">
+            <h3 class="related-title">Related Articles</h3>
+            <div class="related-grid">
+                <div class="related-card">
+                    <h4>Advanced PID Control for Robotics</h4>
+                    <p>Take your robotics projects to the next level with our in-depth guide to PID control systems.</p>
+                </div>
+                <div class="related-card">
+                    <h4>Building a Robot from Scratch</h4>
+                    <p>Follow our team's journey from concept to finished product as we document the development process.</p>
+                </div>
+                <div class="related-card">
+                    <h4>Choosing the Right Motors</h4>
+                    <p>Learn about different motor types and how to select the perfect one for your robotics project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to headings
+            const headings = document.querySelectorAll('h1, h2, h3');
+            
+            headings.forEach(heading => {
+                heading.style.opacity = "0";
+                heading.style.transform = "translateY(20px)";
+                heading.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            });
+            
+            setTimeout(() => {
+                headings.forEach((heading, index) => {
+                    setTimeout(() => {
+                        heading.style.opacity = "1";
+                        heading.style.transform = "translateY(0)";
+                    }, 200 + (index * 100));
+                });
+            }, 300);
+            
+            // Syntax highlighting simulation for code blocks
+            const codeBlocks = document.querySelectorAll('.code-block');
+            
+            codeBlocks.forEach(block => {
+                const text = block.querySelector('pre').textContent;
+                block.querySelector('pre').innerHTML = '';
+                
+                const lines = text.split('\n');
+                lines.forEach(line => {
+                    const lineElem = document.createElement('div');
+                    lineElem.style.display = 'block';
+                    lineElem.style.lineHeight = '1.5';
+                    
+                    // Simple syntax highlighting
+                    if (line.trim().startsWith('//')) {
+                        lineElem.innerHTML = `<span style="color: #6A9955;">${line}</span>`;
+                    } else if (line.includes('void') || line.includes('const') || 
+                               line.includes('int') || line.includes('digitalWrite')) {
+                        const parts = line.split(/(void|const|int|digitalWrite|HIGH|LOW)/);
+                        lineElem.innerHTML = parts.map(part => {
+                            if (['void', 'const', 'int', 'digitalWrite'].includes(part)) {
+                                return `<span style="color: #569CD6;">${part}</span>`;
+                            } else if (['HIGH', 'LOW'].includes(part)) {
+                                return `<span style="color: #9CDCFE;">${part}</span>`;
+                            }
+                            return part;
+                        }).join('');
+                    } else {
+                        lineElem.textContent = line;
+                    }
+                    
+                    block.querySelector('pre').appendChild(lineElem);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
