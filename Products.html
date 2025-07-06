@@ -21,6 +21,7 @@
             --nav-bg: rgba(15, 10, 26, 0.95);
             --button-bg: #00BFFF;
             --button-hover: #00FFFF;
+            --unavailable-gray: #555555;
         }
         
         * {
@@ -139,6 +140,23 @@
             box-shadow: 0 5px 15px rgba(255, 0, 153, 0.3);
         }
 
+        /* Style for unavailable products */
+        .product-price[data-available="false"] {
+            color: var(--unavailable-gray);
+        }
+
+        .product-card[data-available="false"] .order-btn {
+            background: var(--unavailable-gray);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .product-card[data-available="false"] .order-btn:hover {
+            background: var(--unavailable-gray);
+            transform: none;
+            box-shadow: none;
+        }
+
         nav {
             position: fixed;
             top: 0;
@@ -231,67 +249,67 @@
         <h2 class="section-title">Our Robotics Kits</h2>
         <div class="products-grid">
             <!-- Product 1 -->
-            <div class="product-card">
+            <div class="product-card" data-available="false">
                 <img src="imgs/products/pcb.jpg" alt="Custom PCBs" class="product-image">
                 <h3 class="product-name">Custom PCBs</h3>
-                <div class="product-price">Unavailable</div>
+                <div class="product-price" data-available="false">Unavailable</div>
                 <p class="product-description">
                     High-quality custom printed circuit boards designed for your specific robotics projects. Perfect for prototyping and production.
                 </p>
                 <button class="order-btn" onclick="window.open('https://www.instagram.com/ofinitytech/', '_blank')">
-                    <i class="fab fa-instagram"></i> Order on Instagram
+                    <i class="fab fa-instagram"></i> Currently Unavailable
                 </button>
             </div>
 
             <!-- Product 2 -->
-            <div class="product-card">
+            <div class="product-card" data-available="false">
                 <img src="imgs/products/line-follower.jpg" alt="Line Follower Robot" class="product-image">
                 <h3 class="product-name">Line Follower Robot</h3>
-                <div class="product-price">Unavailable</div>
+                <div class="product-price" data-available="false">Unavailable</div>
                 <p class="product-description">
                     Advanced line following robot with PID control algorithm. Ideal for learning autonomous vehicle principles and competitions.
                 </p>
                 <button class="order-btn" onclick="window.open('https://www.instagram.com/ofinitytech/', '_blank')">
-                    <i class="fab fa-instagram"></i> Order on Instagram
+                    <i class="fab fa-instagram"></i> Currently Unavailable
                 </button>
             </div>
 
             <!-- Product 3 -->
-            <div class="product-card">
+            <div class="product-card" data-available="false">
                 <img src="imgs/products/fire-fighter.jpg" alt="Fire Fighter Robot" class="product-image">
                 <h3 class="product-name">Fire Fighter Robot</h3>
-                <div class="product-price">Unavailable</div>
+                <div class="product-price" data-available="false">Unavailable</div>
                 <p class="product-description">
                     Autonomous fire detection and extinguishing robot with flame sensors and water pump system. Great for safety demonstrations.
                 </p>
                 <button class="order-btn" onclick="window.open('https://www.instagram.com/ofinitytech/', '_blank')">
-                    <i class="fab fa-instagram"></i> Order on Instagram
+                    <i class="fab fa-instagram"></i> Currently Unavailable
                 </button>
             </div>
 
             <!-- Product 4 -->
-            <div class="product-card">
+            <div class="product-card" data-available="false">
                 <img src="imgs/products/maze-robot.jpg" alt="Maze Robot" class="product-image">
                 <h3 class="product-name">Maze Robot</h3>
-                <div class="product-price">Unavailable</div>
+                <div class="product-price" data-available="false">Unavailable</div>
                 <p class="product-description">
                     Intelligent maze solving robot using ultrasonic sensors and advanced algorithms. Perfect for learning pathfinding techniques.
                 </p>
                 <button class="order-btn" onclick="window.open('https://www.instagram.com/ofinitytech/', '_blank')">
-                    <i class="fab fa-instagram"></i> Order on Instagram
+                    <i class="fab fa-instagram"></i> Currently Unavailable
                 </button>
             </div>
 
             <!-- Product 5 -->
-            <div class="product-card">
+            <div class="product-card" data-available="false">
                 <img src="imgs/products/dashboard.jpg" alt="Robotics Dashboards" class="product-image">
                 <h3 class="product-name">Robotics Dashboards</h3>
-                <div class="product-price">Unavailable</div>
+                <div class="product-price" data-available="false">Unavailable</div>
                 <p class="product-description">
                     Custom control dashboards for monitoring and controlling your robotics projects. Includes real-time data visualization.
                 </p>
                 <button class="order-btn" onclick="window.open('https://www.instagram.com/ofinitytech/', '_blank')">
-                    <i class="fab fa-instagram"></i> Order on Instagram
+                    <i class="fab fa-instagram"></i> Currently Unavailable
                 </button>
             </div>
         </div>
@@ -300,6 +318,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Products page loaded');
+            
+            // Disable click events for unavailable products
+            document.querySelectorAll('[data-available="false"] .order-btn').forEach(button => {
+                button.onclick = function(e) {
+                    if (this.closest('[data-available="false"]')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                };
+            });
         });
     </script>
 </body>
