@@ -85,4 +85,4 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.timeline-item').forEach(item => {
         observer.observe(item);
     });
-});
+}); 
